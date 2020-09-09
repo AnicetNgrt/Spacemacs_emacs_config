@@ -31,18 +31,16 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     (c-c++ :variables c-c++-backend 'lsp-clangd)
      eww
      php
      html
      python
-     ;; ----------------------------------------------------------------
-     ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
-     ;; <M-m f e R> (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
      ivy
      ranger
      ;; better-defaults
+     (java :variables
+           java-backend 'lsp)
      emacs-lisp
      git
      markdown
@@ -53,8 +51,8 @@ values."
      (auto-completion :variables
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-enable-sort-by-usage t)
-     ;; spell-checking
-     ;; syntax-checking
+     spell-checking
+     syntax-checking
      ;; version-control
      )
    ;; List of additional packages that will be installed without being
@@ -335,9 +333,23 @@ you should place your code here."
         (set-window-margins nil (max left 0) (max right 0)))))
 
   (yas-global-mode 1)
+
   (global-set-key (kbd "C-~") 'yas-insert-snippet)
+
   (require 'gdscript-mode)
+
   (setq gdscript-godot-executable "/usr/bin/godot3")
+
+  (setq projectile-git-submodule-command nil)
+
+  (with-eval-after-load "ispell"
+    (setq ispell-program-name "hunspell")
+    ;; ispell-set-spellchecker-params has to be called
+    ;; before ispell-hunspell-add-multi-dic will work
+    (ispell-set-spellchecker-params)
+    (ispell-hunspell-add-multi-dic "fr_FR,en_GB")
+    (setq ispell-dictionary "fr_FR,en_GB"))
+  (setq neo-window-width 20)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -349,10 +361,10 @@ you should place your code here."
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/Work/ProgrammingProjects/GodotProjects/Zugzwang/zugzwang_org.org" "~/Work/Courses/2020-2021/s3/AlgoAvanC/devoirs.org" "~/Work/Courses/2020-2021/s3/PWEB/devoirs.org" "~/Work/Courses/2020-2021/s3/PSE/devoirs.org" "~/Work/Org/misc.org")))
+    ("~/Work/Courses/2020-2021/vgclub/vgblub_org.org" "~/Work/Courses/2020-2021/s3/PWEB/PWEB_devoirs.org" "~/Work/Courses/2020-2021/s3/PSE/PSE_devoirs.org" "~/Work/Courses/2020-2021/s3/AlgoAvanC/algoAvanC_devoirs.org" "~/Work/ProgrammingProjects/GodotProjects/Zugzwang/zugzwang_org.org" "~/Work/Org/misc.org")))
  '(package-selected-packages
    (quote
-    (gdscript-mode php-extras php-auto-yasnippets drupal-mode phpunit phpcbf php-mode helm-themes helm-swoop helm-projectile helm-mode-manager helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag ace-jump-helm-line helm helm-core yasnippet-snippets web-mode tagedit slim-mode scss-mode sass-mode pug-mode haml-mode emmet-mode company-web web-completion-data yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional cython-mode company-anaconda anaconda-mode pythonic xterm-color smeargle shell-pop ranger orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download multi-term mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup htmlize gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit git-commit with-editor transient eshell-z eshell-prompt-extras esh-help company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete ws-butler winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline smex restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-make google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired f evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump popup dash s diminish define-word counsel-projectile projectile pkg-info epl counsel swiper ivy column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed async aggressive-indent adaptive-wrap ace-window ace-link avy)))
+    (disaster company-c-headers cmake-mode clang-format lsp-java dap-mode posframe lsp-treemacs bui lsp-mode treemacs pfuture ht meghanada company-emacs-eclim eclim flyspell-correct-ivy flyspell-correct flycheck-pos-tip pos-tip flycheck auto-dictionary gdscript-mode php-extras php-auto-yasnippets drupal-mode phpunit phpcbf php-mode helm-themes helm-swoop helm-projectile helm-mode-manager helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag ace-jump-helm-line helm helm-core yasnippet-snippets web-mode tagedit slim-mode scss-mode sass-mode pug-mode haml-mode emmet-mode company-web web-completion-data yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional cython-mode company-anaconda anaconda-mode pythonic xterm-color smeargle shell-pop ranger orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download multi-term mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup htmlize gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit git-commit with-editor transient eshell-z eshell-prompt-extras esh-help company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete ws-butler winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline smex restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-make google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired f evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump popup dash s diminish define-word counsel-projectile projectile pkg-info epl counsel swiper ivy column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed async aggressive-indent adaptive-wrap ace-window ace-link avy)))
  '(paradox-github-token t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
